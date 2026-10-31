@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Is This a Scam?</title>
+<style>
+ body{font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.5;background:#fff;color:#000;margin:0}
+ main{max-width:820px;margin:0 auto;padding:20px}
+ h1{font-size:44px;margin:10px 0}
+ #demo{background:#ffe600;border:3px solid #000;padding:10px 14px;font-weight:bold;display:none}
+ label{font-weight:bold;display:block;margin-top:18px}
+ textarea{width:100%;box-sizing:border-box;font-size:22px;min-height:180px;border:3px solid #000;padding:12px}
+ input[type=file]{font-size:20px;margin-top:8px}
+ select{font-size:20px;padding:8px;border:2px solid #000;max-width:100%}
+ button{font-size:24px;font-weight:bold;border:3px solid #000;border-radius:10px;padding:14px 22px;cursor:pointer;margin:8px 8px 0 0}
+ #check{display:block;width:100%;font-size:36px;padding:22px;background:#0047ab;color:#fff;margin-top:20px}
+ button:focus,textarea:focus{outline:5px solid #ff8c00}
+ #result{display:none;margin-top:26px;border:4px solid #000;border-radius:12px;padding:20px}
+ #verdict{font-size:48px;font-weight:bold;padding:14px;border-radius:8px;text-align:center}
+ .scam{background:#b00020;color:#fff}.careful{background:#ffcc00;color:#000}.ok{background:#006b2e;color:#fff}
+ #flags li{margin:8px 0}
+ .step{font-size:26px;font-weight:bold;background:#eef;border-left:8px solid #0047ab;padding:12px}
+ .small{font-size:20px;color:#333}
+ a{color:#0000cc}
+</style></head><body><main>
+<h1>Is This a Scam?</h1>
+<div id="demo">DEMO MODE: no AI key is set. Results use simple rules only.</div>
+<label for="msg">1. Paste the message here:</label>
+<textarea id="msg" placeholder="Paste the text, email, or message you got..."></textarea>
+<label for="img">Or add a picture (screenshot) of it:</label>
+<input id="img" type="file" accept="image/*">
+<button id="check">Check It</button>
+<section id="result" aria-live="polite">
+ <div id="verdict"></div>
+ <h2>Why:</h2><ul id="flags"></ul>
+ <h2>What to do now:</h2><p class="step" id="step"></p>
+ <p id="help"></p>
+ <button id="speak">🔊 Read Out Loud</button>
+ <button id="family">📩 Send to My Family</button>
+ <p class="small" id="src"></p>
+</section>
+<p style="margin-top:40px"><label for="samples" style="display:inline">Try an example:</label>
+<select id="samples"><option value="">-- pick one --</option></select></p>
+</main>
+<script>
+let last=null, samples=[];
+const $=id=>document.getElementById(id);
+fetch('/api/config').then(r=>r.json()).then(c=>{if(c.demo_mode)$('demo').style.display='block'});
+fetch('/api/samples').then(r=>r.json()).then(s=>{samples=s;s.forEach(x=>{const o=document.createElement('option');o.value=x.id;o.textContent=x.label;$('samples').appendChild(o)})});
+// demo helper: /?sample=irs auto-fills and checks
+const q=new URLSearchParams(location.search).get('sample');
+if(q)setTimeout(()=>{const s=samples.find(x=>x.id===q);if(s){$('msg').value=s.text;$('check').click()}},500);
+$('samples').onchange=e=>{const s=samples.find(x=>x.id===e.target.value);if(s){$('msg').value=s.text;$('result').style.display='none'}};
+$('check').onclick=async()=>{
+ const fd=new FormData();fd.append('text',$('msg').value);
+ if($('img').files[0])fd.append('image',$('img').files[0]);
+ if(!$('msg').value.trim()&&!$('img').files[0]){alert('Please paste a message or add a picture first.');return}
+ $('check').textContent='Checking...';
+ const r=await (await fetch('/api/check',{method:'POST',body:fd})).json();
+ $('check').textContent='Check It';last=r;
+ const v=$('verdict');v.textContent=r.verdict==='Likely Scam'?'⛔ Likely Scam':r.verdict==='Be Careful'?'⚠️ Be Careful':'✅ Looks OK';
+ v.className=r.verdict==='Likely Scam'?'scam':r.verdict==='Be Careful'?'careful':'ok';
+ $('flags').innerHTML='';r.flags.forEach(f=>{const li=document.createElement('li');li.textContent=f;$('flags').appendChild(li)});
+ $('step').textContent=r.next_step;
+ $('help').innerHTML=r.help.map(h=>`Need help? ${h.name}: <a href="tel:${h.number.replace(/\D/g,'')}"><b>${h.number}</b></a>`).join('<br>');
+ $('src').textContent='Checked by: '+r.source+(r.demo_mode?' (DEMO MODE)':'');
+ $('result').style.display='block';$('result').scrollIntoView({behavior:'smooth'});
+};
+function summary(){return `I got a message and checked it. Result: ${last.verdict}.\nWhy: ${last.flags.join(' ')}\nMessage: "${$('msg').value.slice(0,300)}"\nCan you help me?`}
+$('speak').onclick=()=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${last.verdict}. ${last.flags.join('. ')}. What to do now: ${last.next_step}`);u.rate=0.85;speechSynthesis.speak(u)};
+$('family').onclick=()=>{const b=encodeURIComponent(summary());
+ if(/Android|iPhone|iPad/i.test(navigator.userAgent))location.href='sms:?&body='+b;
+ else location.href='mailto:?subject='+encodeURIComponent('Is this a scam? Can you help?')+'&body='+b};
+</script></body></html>

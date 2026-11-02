@@ -1,0 +1,13 @@
+PASS  grandparent     expected=Likely Scam  got=Likely Scam  score=9
+PASS  medicare        expected=Likely Scam  got=Likely Scam  score=8
+PASS  irs             expected=Likely Scam  got=Likely Scam  score=9
+PASS  giftcard        expected=Likely Scam  got=Likely Scam  score=8
+PASS  techsupport     expected=Likely Scam  got=Likely Scam  score=5
+PASS  romance         expected=Likely Scam  got=Likely Scam  score=7
+PASS  package         expected=Likely Scam  got=Likely Scam  score=5
+PASS  bank            expected=Likely Scam  got=Likely Scam  score=8
+PASS  prize           expected=Likely Scam  got=Likely Scam  score=7
+PASS  crypto          expected=Likely Scam  got=Likely Scam  score=7
+PASS  legit_pharmacy  expected=Looks OK     got=Looks OK     score=0
+PASS  legit_family    expected=Looks OK     got=Looks OK     score=0
+12/12 passed

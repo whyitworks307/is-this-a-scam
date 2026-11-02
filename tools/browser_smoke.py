@@ -1,5 +1,6 @@
 """Headless Chromium checks. Install playwright separately; uses demo only."""
 import json
+import argparse
 import os
 from pathlib import Path
 import socket
@@ -10,6 +11,9 @@ from playwright.sync_api import sync_playwright, expect
 ROOT = Path(__file__).resolve().parents[1]
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--output',type=Path,default=ROOT/'evidence/browser_smoke.json')
+    output=parser.parse_args().output
     python = ROOT/'.venv/bin/python'
     if os.name == 'nt':
         python = ROOT/'.venv/Scripts/python.exe'
@@ -100,13 +104,25 @@ def main():
                 expect(page.locator('#verdict')).to_contain_text('Likely Scam')
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
                 passed(f'No horizontal overflow at {width}px')
+            def hostile_help(route):
+                route.fulfill(json={'verdict':'Be Careful','flags':['Review this message.'],
+                    'next_step':'Ask someone you trust.','source':'Offline browser test',
+                    'demo_mode':True,'help':[{'name':'<img src=x onerror=alert(1)>',
+                    'number':'877-908-3360'}]})
+            page.route('**/api/check',hostile_help)
+            page.locator('#check').click()
+            expect(page.locator('#help')).to_contain_text('<img src=x onerror=alert(1)>')
+            assert page.locator('#help img').count()==0
+            assert page.locator('#help a').get_attribute('href')=='tel:8779083360'
+            passed('Help metadata renders as literal text, never injected HTML')
             assert not errors, errors
             passed('No uncaught page JavaScript errors')
             browser.close()
     finally:
         server.terminate()
         server.wait(timeout=5)
-        (ROOT/'evidence/browser_smoke.json').write_text(json.dumps(checks, indent=2)+'\n')
+        output.parent.mkdir(parents=True,exist_ok=True)
+        output.write_text(json.dumps(checks, indent=2)+'\n')
     print(f'{len(checks)} browser checks passed')
 
 if __name__ == '__main__':

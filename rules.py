@@ -1,5 +1,29 @@
 """Deterministic rule-based pre-check. Runs with or without the AI model."""
 import re
+import unicodedata
+
+_LEET = str.maketrans({'0':'o','1':'i','3':'e','4':'a','5':'s','7':'t'})
+_SCAM_WORDS = {'gift','card','cards','bitcoin','crypto','wire','password','pin','ssn',
+               'urgent','arrest','bail','grandson','granddaughter'}
+
+def normalized_text(text: str) -> str:
+    """Normalize rule matching only; never change the user's message or digits.
+
+    Fold hidden formatting, full-width letters and a small set of obfuscated
+    warning words. Pure numbers and unrelated alphanumeric identifiers stay intact.
+    This is bounded evasion resistance, not a universal deobfuscation claim.
+    """
+    value=unicodedata.normalize('NFKC',text or '').casefold()
+    value=''.join(c for c in value if unicodedata.category(c)!='Cf')
+    value=value.translate(str.maketrans({'\u2018':"'",'\u2019':"'",'\u2010':'-','\u2011':'-'}))
+    def fold(match):
+        token=match.group()
+        if any(c.isalpha() for c in token) and any(c.isdigit() for c in token):
+            candidate=token.translate(_LEET)
+            if candidate in _SCAM_WORDS:
+                return candidate
+        return token
+    return re.sub(r'\b[a-z0-9]+\b',fold,value)
 
 # (id, plain-words flag, weight, regex patterns)
 RULES = [
@@ -7,7 +31,7 @@ RULES = [
      [r"\burgent\b", r"\bimmediately\b", r"\bright now\b", r"\bwithin (24|48) hours\b", r"\btoday only\b",
       r"\bact now\b", r"\bfinal (notice|warning)\b", r"\bexpires?\b", r"\bsuspended\b", r"\bavoid (arrest|penalt)"]),
     ("gift_cards", "It asks for gift cards. Real companies and the government never take gift cards as payment.", 4,
-     [r"gift ?cards?", r"\bitunes\b", r"google play card", r"\bsteam card", r"target card", r"apple card numbers?"]),
+     [r"\bgift[\s-]*cards?\b", r"\bitunes\b", r"google play card", r"\bsteam card", r"target card", r"apple card numbers?"]),
     ("wire_crypto", "It asks you to send money by wire, Zelle, cash, or crypto. That money is very hard to get back.", 4,
      [r"\bwire\b", r"western union", r"moneygram", r"\bzelle\b", r"\bbitcoin\b", r"\bcrypto", r"\busdt\b",
       r"bitcoin atm", r"\bcash app\b", r"\bvenmo\b", r"send (the )?cash"]),
@@ -24,7 +48,8 @@ RULES = [
     ("prize", "It says you won something you never entered. You never have to pay to get a real prize.", 3,
      [r"you('ve| have)? won", r"\bwinner\b", r"\blottery\b", r"\bsweepstakes\b", r"claim your (prize|reward)", r"processing fee"]),
     ("family_emergency", "Someone says a family member is in trouble and needs money fast. Call that person yourself first.", 3,
-     [r"\bgrandma\b", r"\bgrandpa\b", r"\bbail\b", r"\bin jail\b", r"\bhospital\b.*\bmoney\b", r"\baccident\b"]),
+     [r"\bgrandma\b", r"\bgrandpa\b", r"\bbail\b", r"\bin jail\b", r"\bhospital\b.*\bmoney\b", r"\baccident\b",
+      r"(?s)\b(?:grandson|granddaughter|grandchild)\b.{0,140}\b(?:i need|send|pay|transfer)\b.{0,120}\b(?:money|dollars|lawyer|bail)\b"]),
     ("remote_access", "It wants you to call a number or let someone into your computer. Real tech companies don't do that.", 3,
      [r"virus", r"anydesk", r"teamviewer", r"remote access", r"call (microsoft|apple) support", r"your computer (is|has been)"]),
     ("romance_money", "Someone you only know online is asking for money. That is a very common scam.", 3,
@@ -34,7 +59,7 @@ RULES = [
 ]
 
 def precheck(text: str) -> dict:
-    t = (text or "").lower()
+    t = normalized_text(text)
     hits, score = [], 0
     for rid, flag, w, pats in RULES:
         if any(re.search(p, t) for p in pats):

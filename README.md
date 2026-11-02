@@ -11,6 +11,16 @@ This branch is a review candidate. It has not been independently accepted or dep
 The original working demo and submission files are preserved. See
 [the release report](docs/HARDENING_REPORT.md) and [Vex handoff](docs/VEX_HANDOFF.md).
 
+### Post-Vex follow-up
+
+Vex accepted the exact parent `87d659b59a8d4b0bf484e02e8d10105167aef4ea` for
+Linux offline behavior. The current `post-vex-scam-fixes-20261102` branch is a
+separate follow-up, pending its own review. It addresses rules-only gift-card
+obfuscation and family-emergency misses, retains Vex's adversarial tests, and
+renders help text without HTML insertion. See [follow-up status](docs/post_vex/STATUS.md).
+The original accepted parent and main remain preserved. The parent's 13 live
+results are historical evidence; no new paid campaign was run for this follow-up.
+
 - Upload a clear, complete PNG/JPEG photo of a letter, invoice, notice, or message.
   Maximum: 8 MiB and 16 million pixels; text: 12,000 characters.
 - Typed text and words extracted from the image both go through the existing rules.

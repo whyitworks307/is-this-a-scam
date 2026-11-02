@@ -1,0 +1,32 @@
+[
+  {
+    "name": "M2_decoded_pixels",
+    "applied": true,
+    "exit_code": 1,
+    "detected": true
+  },
+  {
+    "name": "M10_invalid_verdict",
+    "applied": true,
+    "exit_code": 1,
+    "detected": true
+  },
+  {
+    "name": "M12_response_cap",
+    "applied": true,
+    "exit_code": 1,
+    "detected": true
+  },
+  {
+    "name": "F1_normalization",
+    "applied": true,
+    "exit_code": 1,
+    "detected": true
+  },
+  {
+    "name": "F1_family_request",
+    "applied": true,
+    "exit_code": 1,
+    "detected": true
+  }
+]

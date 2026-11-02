@@ -1,0 +1,66 @@
+[
+  {
+    "check": "Demo page and all twelve sample choices load",
+    "status": "PASS"
+  },
+  {
+    "check": "Input labels, photo help, and text limit",
+    "status": "PASS"
+  },
+  {
+    "check": "Empty-input error is announced inline",
+    "status": "PASS"
+  },
+  {
+    "check": "Scam result, safe action, and keyboard focus",
+    "status": "PASS"
+  },
+  {
+    "check": "Read Out Loud receives the reviewed result text",
+    "status": "PASS"
+  },
+  {
+    "check": "Family-share draft contains result and request for help; nothing sent",
+    "status": "PASS"
+  },
+  {
+    "check": "Benign sample retains safe-verdict caveat",
+    "status": "PASS"
+  },
+  {
+    "check": "Invalid photo error hides old verdict and restores controls",
+    "status": "PASS"
+  },
+  {
+    "check": "Choosing a sample clears a previous photo",
+    "status": "PASS"
+  },
+  {
+    "check": "In-flight controls lock and HTTP failure restores them",
+    "status": "PASS"
+  },
+  {
+    "check": "Non-JSON gateway error is readable and recoverable",
+    "status": "PASS"
+  },
+  {
+    "check": "Network failure restores controls",
+    "status": "PASS"
+  },
+  {
+    "check": "No horizontal overflow at 360px",
+    "status": "PASS"
+  },
+  {
+    "check": "No horizontal overflow at 320px",
+    "status": "PASS"
+  },
+  {
+    "check": "Help metadata renders as literal text, never injected HTML",
+    "status": "PASS"
+  },
+  {
+    "check": "No uncaught page JavaScript errors",
+    "status": "PASS"
+  }
+]

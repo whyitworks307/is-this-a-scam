@@ -1,0 +1,167 @@
+FFFFFFFF....FFFF                                                         [100%]
+=================================== FAILURES ===================================
+_ test_demo_evasion_never_reassures[Buy g1ft c4rds and send me the codes, hurry.] _
+
+text = 'Buy g1ft c4rds and send me the codes, hurry.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+__ test_demo_evasion_never_reassures[Buy gift\u200bcards and send the codes.] __
+
+text = 'Buy gift\u200bcards and send the codes.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+_ test_demo_evasion_never_reassures[Buy \uff47\uff49\uff46\uff54 \uff43\uff41\uff52\uff44\uff53 and send the codes.] _
+
+text = 'Buy ｇｉｆｔ ｃａｒｄｓ and send the codes.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+__ test_demo_evasion_never_reassures[Buy gift\u2060cards and send the codes.] __
+
+text = 'Buy gift\u2060cards and send the codes.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+___ test_demo_evasion_never_reassures[Buy gift-card codes for the payment.] ____
+
+text = 'Buy gift-card codes for the payment.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+____ test_demo_evasion_never_reassures[Buy gift    cards for the payment.] _____
+
+text = 'Buy gift    cards for the payment.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+_ test_demo_evasion_never_reassures[Hi, this is your grandson. I need 900 dollars for a lawyer, call me at this new number.] _
+
+text = 'Hi, this is your grandson. I need 900 dollars for a lawyer, call me at this new number.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+_ test_demo_evasion_never_reassures[This is your granddaughter. Send money for a lawyer to this new number.] _
+
+text = 'This is your granddaughter. Send money for a lawyer to this new number.'
+
+    @pytest.mark.parametrize('text',EVASIONS)
+    def test_demo_evasion_never_reassures(text):
+        r=client.post('/api/check',data={'text':text})
+        assert r.status_code==200
+>       assert r.json()['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:28: AssertionError
+__________________ test_curly_apostrophe_secrecy_still_warns ___________________
+
+    def test_curly_apostrophe_secrecy_still_warns():
+>       assert rules.precheck('Don\u2019t tell anyone.')['score']>=4
+E       assert 0 >= 4
+
+tests/test_post_vex_rules.py:40: AssertionError
+_______________ test_money_digits_not_rewritten_by_normalization _______________
+
+    def test_money_digits_not_rewritten_by_normalization():
+>       assert '1234.56' in rules.normalized_text('Invoice AB123: 1234.56')
+                            ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'rules' has no attribute 'normalized_text'
+
+tests/test_post_vex_rules.py:43: AttributeError
+_ test_extracted_evasion_survives_false_safe_ai[Buy g1ft c4rds and send me the codes, hurry.] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ffab7c134a0>
+text = 'Buy g1ft c4rds and send me the codes, hurry.'
+
+    @pytest.mark.parametrize('text',EVASIONS[:2])
+    def test_extracted_evasion_survives_false_safe_ai(monkeypatch,text):
+        monkeypatch.setenv('DEMO_MODE','0')
+        monkeypatch.setenv('META_API_KEY','FAKE_TEST_VALUE_NOT_A_SECRET')
+        monkeypatch.setattr(app.meta_client,'analyze',lambda *args:{'verdict':'Looks OK','flags':[],
+            'next_step':'Pay now','extracted_text':text,'image_readable':True})
+        from test_hardening import PNG
+        r=client.post('/api/check',files={'image':('letter.png',PNG,'image/png')}).json()
+>       assert r['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:53: AssertionError
+_ test_extracted_evasion_survives_false_safe_ai[Buy gift\u200bcards and send the codes.] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ffab7c77fe0>
+text = 'Buy gift\u200bcards and send the codes.'
+
+    @pytest.mark.parametrize('text',EVASIONS[:2])
+    def test_extracted_evasion_survives_false_safe_ai(monkeypatch,text):
+        monkeypatch.setenv('DEMO_MODE','0')
+        monkeypatch.setenv('META_API_KEY','FAKE_TEST_VALUE_NOT_A_SECRET')
+        monkeypatch.setattr(app.meta_client,'analyze',lambda *args:{'verdict':'Looks OK','flags':[],
+            'next_step':'Pay now','extracted_text':text,'image_readable':True})
+        from test_hardening import PNG
+        r=client.post('/api/check',files={'image':('letter.png',PNG,'image/png')}).json()
+>       assert r['verdict'] in ('Be Careful','Likely Scam')
+E       AssertionError: assert 'Looks OK' in ('Be Careful', 'Likely Scam')
+
+tests/test_post_vex_rules.py:53: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/scratch/71ea51ab4ff8/is-this-a-scam/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy g1ft c4rds and send me the codes, hurry.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy gift\u200bcards and send the codes.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy \uff47\uff49\uff46\uff54 \uff43\uff41\uff52\uff44\uff53 and send the codes.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy gift\u2060cards and send the codes.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy gift-card codes for the payment.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Buy gift    cards for the payment.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[Hi, this is your grandson. I need 900 dollars for a lawyer, call me at this new number.]
+FAILED tests/test_post_vex_rules.py::test_demo_evasion_never_reassures[This is your granddaughter. Send money for a lawyer to this new number.]
+FAILED tests/test_post_vex_rules.py::test_curly_apostrophe_secrecy_still_warns
+FAILED tests/test_post_vex_rules.py::test_money_digits_not_rewritten_by_normalization
+FAILED tests/test_post_vex_rules.py::test_extracted_evasion_survives_false_safe_ai[Buy g1ft c4rds and send me the codes, hurry.]
+FAILED tests/test_post_vex_rules.py::test_extracted_evasion_survives_false_safe_ai[Buy gift\u200bcards and send the codes.]
+12 failed, 4 passed, 1 warning in 1.41s

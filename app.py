@@ -111,6 +111,9 @@ async def check(text: str = Form(""), image: UploadFile | None = File(None)):
             err, source = str(e)[:200], "rules (AI call failed)"
     rule = rules.precheck(text)
     v, flags, step = combine(rule, ai)
+    if img and not text.strip() and not ai:
+        # we could not read the picture, so never say "Looks OK"
+        v, flags, step = "Be Careful", ["We couldn't read this picture. Please type or paste the words."], STEPS["Be Careful"]
     if not flags:
         flags = ["We didn't find common scam signs."] if v == "Looks OK" else ["Something here looks unusual."]
     return {"verdict": v, "flags": flags, "next_step": step, "source": source, "demo_mode": demo_mode(),

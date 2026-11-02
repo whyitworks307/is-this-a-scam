@@ -56,4 +56,5 @@ samples.json       -> 10 scams + 2 real messages for the demo.
 - Screenshot input works on chat completions using an OpenAI-style `image_url` part with a `data:image/png;base64,...` URL. The model returns the text it reads in `extracted_text`. The Responses API isn't needed.
 - `python3 test_samples.py` in live mode: 12/12 pass (10 scams are Likely Scam, 2 real messages are Looks OK). Takes about 3 s per call.
 - The DEMO MODE banner is hidden when a key is set. Live screenshot: `screenshot_live.png` (sample image: `sample_scam_screenshot.png`).
-- Known cosmetic issue: AI flags and rule flags can say the same thing twice (e.g. gift cards, secrecy).
+- AI flags and rule flags are merged so the same warning isn't listed twice.
+- If a screenshot can't be read (AI down or error), the app says "Be Careful" and asks you to paste the words. It never says "Looks OK" for a picture it couldn't read.

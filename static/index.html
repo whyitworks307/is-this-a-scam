@@ -8,11 +8,14 @@
  #demo{background:#ffe600;border:3px solid #000;padding:10px 14px;font-weight:bold;display:none}
  label{font-weight:bold;display:block;margin-top:18px}
  textarea{width:100%;box-sizing:border-box;font-size:22px;min-height:180px;border:3px solid #000;padding:12px}
- input[type=file]{font-size:20px;margin-top:8px}
+ input[type=file]{font-size:20px;margin-top:8px;max-width:100%}
  select{font-size:20px;padding:8px;border:2px solid #000;max-width:100%}
  button{font-size:24px;font-weight:bold;border:3px solid #000;border-radius:10px;padding:14px 22px;cursor:pointer;margin:8px 8px 0 0}
  #check{display:block;width:100%;font-size:36px;padding:22px;background:#0047ab;color:#fff;margin-top:20px}
  button:focus,textarea:focus{outline:5px solid #ff8c00}
+ input:focus,select:focus,a:focus,#result:focus{outline:5px solid #ff8c00}
+ #error{color:#b00020;font-weight:bold}
+ button:disabled{opacity:.65;cursor:wait}
  #result{display:none;margin-top:26px;border:4px solid #000;border-radius:12px;padding:20px}
  #verdict{font-size:48px;font-weight:bold;padding:14px;border-radius:8px;text-align:center}
  .scam{background:#b00020;color:#fff}.careful{background:#ffcc00;color:#000}.ok{background:#006b2e;color:#fff}
@@ -24,11 +27,14 @@
 <h1>Is This a Scam?</h1>
 <div id="demo">DEMO MODE: no AI key is set. Results use simple rules only.</div>
 <label for="msg">1. Paste the message here:</label>
-<textarea id="msg" placeholder="Paste the text, email, or message you got..."></textarea>
-<label for="img">Or add a picture (screenshot) of it:</label>
-<input id="img" type="file" accept="image/*">
+<textarea id="msg" maxlength="12000" placeholder="Paste the text, email, or message you got..."></textarea>
+<label for="img">Or add a picture of a text, email, or letter:</label>
+<input id="img" type="file" accept="image/png,image/jpeg" aria-describedby="photo-help">
+<p class="small" id="photo-help">Use a clear PNG or JPEG, up to 8 MiB (about 8 MB). Include the whole page and avoid shadows. Cover private details you do not want to share.
+When AI is enabled, the message and photo are sent to Meta for analysis.</p>
 <button id="check">Check It</button>
-<section id="result" aria-live="polite">
+<p id="error" role="alert"></p>
+<section id="result" aria-live="polite" tabindex="-1" aria-label="Check result">
  <div id="verdict"></div>
  <h2>Why:</h2><ul id="flags"></ul>
  <h2>What to do now:</h2><p class="step" id="step"></p>
@@ -48,14 +54,26 @@ fetch('/api/samples').then(r=>r.json()).then(s=>{samples=s;s.forEach(x=>{const o
 // demo helper: /?sample=irs auto-fills and checks
 const q=new URLSearchParams(location.search).get('sample');
 if(q)setTimeout(()=>{const s=samples.find(x=>x.id===q);if(s){$('msg').value=s.text;$('check').click()}},500);
-$('samples').onchange=e=>{const s=samples.find(x=>x.id===e.target.value);if(s){$('msg').value=s.text;$('result').style.display='none'}};
+$('samples').onchange=e=>{const s=samples.find(x=>x.id===e.target.value);if(s){$('msg').value=s.text;$('img').value='';$('result').style.display='none';last=null}};
 $('check').onclick=async()=>{
  const fd=new FormData();fd.append('text',$('msg').value);
  if($('img').files[0])fd.append('image',$('img').files[0]);
- if(!$('msg').value.trim()&&!$('img').files[0]){alert('Please paste a message or add a picture first.');return}
+ $('error').textContent='';
+ if(!$('msg').value.trim()&&!$('img').files[0]){$('error').textContent='Please paste a message or add a picture first.';return}
  $('check').textContent='Checking...';
- const r=await (await fetch('/api/check',{method:'POST',body:fd})).json();
- $('check').textContent='Check It';last=r;
+ $('check').disabled=true;
+ ['msg','img','samples'].forEach(id=>$(id).disabled=true);
+ $('check').setAttribute('aria-busy','true');
+ if('speechSynthesis' in window)speechSynthesis.cancel();
+ last=null;
+ $('result').style.display='none';
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),75000);
+ try {
+ const response=await fetch('/api/check',{method:'POST',body:fd,signal:controller.signal});
+ const r=await response.json();
+ if(!response.ok)throw new Error(r.detail||'The picture could not be checked. Try again.');
+ last=r;
  const v=$('verdict');v.textContent=r.verdict==='Likely Scam'?'⛔ Likely Scam':r.verdict==='Be Careful'?'⚠️ Be Careful':'✅ Looks OK';
  v.className=r.verdict==='Likely Scam'?'scam':r.verdict==='Be Careful'?'careful':'ok';
  $('flags').innerHTML='';r.flags.forEach(f=>{const li=document.createElement('li');li.textContent=f;$('flags').appendChild(li)});
@@ -63,9 +81,12 @@ $('check').onclick=async()=>{
  $('help').innerHTML=r.help.map(h=>`Need help? ${h.name}: <a href="tel:${h.number.replace(/\D/g,'')}"><b>${h.number}</b></a>`).join('<br>');
  $('src').textContent='Checked by: '+r.source+(r.demo_mode?' (DEMO MODE)':'');
  $('result').style.display='block';$('result').scrollIntoView({behavior:'smooth'});
+ $('result').focus({preventScroll:true});
+ }catch(err){$('error').textContent=err.name==='AbortError'?'The check took too long. Please try again.':(err instanceof SyntaxError?'The checker could not answer. Please try again.':err.message||'There was a problem. Please try again.');}
+ finally{clearTimeout(timer);$('check').textContent='Check It';$('check').disabled=false;$('check').removeAttribute('aria-busy');['msg','img','samples'].forEach(id=>$(id).disabled=false);}
 };
 function summary(){return `I got a message and checked it. Result: ${last.verdict}.\nWhy: ${last.flags.join(' ')}\nMessage: "${$('msg').value.slice(0,300)}"\nCan you help me?`}
-$('speak').onclick=()=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${last.verdict}. ${last.flags.join('. ')}. What to do now: ${last.next_step}`);u.rate=0.85;speechSynthesis.speak(u)};
+$('speak').onclick=()=>{if(!last)return;if(!('speechSynthesis' in window)){$('error').textContent='Read Out Loud is not supported in this browser.';return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${last.verdict}. ${last.flags.join('. ')}. What to do now: ${last.next_step}`);u.rate=0.85;speechSynthesis.speak(u)};
 $('family').onclick=()=>{const b=encodeURIComponent(summary());
  if(/Android|iPhone|iPad/i.test(navigator.userAgent))location.href='sms:?&body='+b;
  else location.href='mailto:?subject='+encodeURIComponent('Is this a scam? Can you help?')+'&body='+b};

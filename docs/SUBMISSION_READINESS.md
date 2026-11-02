@@ -1,0 +1,30 @@
+# Submission readiness — November 2, 2026
+
+Deadline supplied by the project: Wednesday, November 4, 2026, 8:00 PM Central.
+Portal: https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit
+
+| Item | Current state |
+| --- | --- |
+| Original application and demo preserved | Complete, starting commit remains available |
+| Isolated improvement branch | Implemented; see PR head for exact pin |
+| Original sample regression | 12/12 demo-mode passes |
+| Offline safety/regression campaign | 99/99 passes; builder evidence |
+| Browser/usability checks | See browser smoke evidence; screen-reader/human senior testing pending |
+| New live Meta photo tests | Blocked: key and promotional billing evidence unavailable |
+| Promotional credit use | $0.00 this campaign; $5 maximum authorized |
+| Vex review and decision | Handoff prepared; delivery/decision pending |
+| README candidate notes | Updated on candidate branch |
+| Existing narrated demo and scripts | Preserved; not rerecorded for unaccepted changes |
+| Judge-accessible demo URL | Still requires observed logged-out playback verification |
+| Actual portal fields/video limits | Still require authenticated portal verification |
+| Submission draft and AI disclosure | Preserved; final disclosure must match submitted version |
+| Production deployment | Not performed; approval required |
+| Merge | Not performed; do not merge before passing QC |
+| Final submission confirmation | Not submitted by this session |
+
+Do not wait for extra features at the deadline. If this branch lacks a passing live
+campaign and explicit Vex acceptance in time, use the original tested application
+and existing narrated demo. Remove any claims about candidate photo improvements
+from the submitted description unless those improvements are actually included and
+tested. Keep the AI-assistance disclosure accurate; do not claim manual authorship
+or independently verified accuracy beyond the recorded evidence.

@@ -2,3 +2,7 @@
 .env
 __pycache__/
 server.log
+.pytest_cache/
+.env.*
+!.env.example
+live_results/

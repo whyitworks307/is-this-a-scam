@@ -1,0 +1,106 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_signature_only_is_not_a_picture[image/png-\x89PNG\r\n\x1a\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00] _
+
+mime = 'image/png'
+data = b'\x89PNG\r\n\x1a\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+    @pytest.mark.parametrize('mime,data', [
+        ('image/png', b'\x89PNG\r\n\x1a\n' + bytes(30)),
+        ('image/jpeg', b'\xff\xd8\xff\xe0' + bytes(30)),
+    ])
+    def test_signature_only_is_not_a_picture(mime, data):
+        r = client.post('/api/check', files={'image': ('x', data, mime)})
+>       assert r.status_code == 415
+E       assert 200 == 415
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_additional_hardening.py:27: AssertionError
+_ test_signature_only_is_not_a_picture[image/jpeg-\xff\xd8\xff\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00] _
+
+mime = 'image/jpeg'
+data = b'\xff\xd8\xff\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+    @pytest.mark.parametrize('mime,data', [
+        ('image/png', b'\x89PNG\r\n\x1a\n' + bytes(30)),
+        ('image/jpeg', b'\xff\xd8\xff\xe0' + bytes(30)),
+    ])
+    def test_signature_only_is_not_a_picture(mime, data):
+        r = client.post('/api/check', files={'image': ('x', data, mime)})
+>       assert r.status_code == 415
+E       assert 200 == 415
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_additional_hardening.py:27: AssertionError
+_____________ test_false_reassurance_cannot_hide_gift_card_warning _____________
+
+    def test_false_reassurance_cannot_hide_gift_card_warning():
+        flags = app.merge_flags(['Gift cards are safe; pay now.', 'No concerns.'],
+                                rules.precheck('Pay using gift cards immediately')['hits'])
+>       assert any('never take gift cards' in f for f in flags)
+E       assert False
+E        +  where False = any(<generator object test_false_reassurance_cannot_hide_gift_card_warning.<locals>.<genexpr> at 0x7f16df6b3440>)
+
+tests/test_additional_hardening.py:32: AssertionError
+___________ test_arbitrary_ai_flags_cannot_give_payment_instructions ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f16df6baf00>
+
+    def test_arbitrary_ai_flags_cannot_give_payment_instructions(monkeypatch):
+        monkeypatch.setenv('DEMO_MODE', '0')
+        monkeypatch.setenv('META_API_KEY', 'FAKE_TEST_VALUE_NOT_A_SECRET')
+        monkeypatch.setattr(app.meta_client, 'analyze', lambda *a: {
+            'verdict': 'Looks OK', 'flags': ['Pay at https://attacker.invalid now.'],
+            'next_step': 'Pay now', 'extracted_text': ''})
+        r = client.post('/api/check', data={'text': 'Lunch tomorrow'}).json()
+>       assert 'attacker.invalid' not in str(r)
+E       assert 'attacker.invalid' not in "{'verdict':...elpline/'}]}"
+E         
+E         'attacker.invalid' is contained here:
+E           t https://attacker.invalid now.'], 'next_step': 'We did not spot common scam signs, but this is not proof it is safe. If you were not expecting it, check with the sender another way.', 'source': 'Meta muse-spark-1.3 + rules', 'demo_mode': False, 'rule_score': 0, 'ai_error': None, 'help': [{'name': 'AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)', 'number': '877-908-3360', 'source': 'https://www.aarp.org/money/scams-fraud/helpline/'}]}
+E         ?           ++++++++++++++++
+
+tests/test_additional_hardening.py:42: AssertionError
+____________________ test_incomplete_photo_does_not_look_ok ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f16df6ba390>
+
+    def test_incomplete_photo_does_not_look_ok(monkeypatch):
+        monkeypatch.setenv('DEMO_MODE', '0')
+        monkeypatch.setenv('META_API_KEY', 'FAKE_TEST_VALUE_NOT_A_SECRET')
+        monkeypatch.setattr(app.meta_client, 'analyze', lambda *a: {
+            'verdict': 'Looks OK', 'flags': [], 'next_step': '',
+            'extracted_text': 'Unreadable lines ...', 'image_readable': False})
+        r = client.post('/api/check', files={'image': ('x.png', photo(), 'image/png')}).json()
+>       assert r['verdict'] == 'Be Careful'
+E       AssertionError: assert 'Looks OK' == 'Be Careful'
+E         
+E         - Be Careful
+E         + Looks OK
+
+tests/test_additional_hardening.py:51: AssertionError
+_______________________ test_large_pixel_image_rejected ________________________
+
+    def test_large_pixel_image_rejected():
+        out = io.BytesIO()
+        Image.new('1', (5000, 5000)).save(out, 'PNG')
+        r = client.post('/api/check', files={'image': ('x.png', out.getvalue(), 'image/png')})
+>       assert r.status_code == 413
+E       assert 200 == 413
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_additional_hardening.py:57: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/scratch/71ea51ab4ff8/is-this-a-scam/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_additional_hardening.py::test_signature_only_is_not_a_picture[image/png-\x89PNG\r\n\x1a\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00]
+FAILED tests/test_additional_hardening.py::test_signature_only_is_not_a_picture[image/jpeg-\xff\xd8\xff\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00]
+FAILED tests/test_additional_hardening.py::test_false_reassurance_cannot_hide_gift_card_warning
+FAILED tests/test_additional_hardening.py::test_arbitrary_ai_flags_cannot_give_payment_instructions
+FAILED tests/test_additional_hardening.py::test_incomplete_photo_does_not_look_ok
+FAILED tests/test_additional_hardening.py::test_large_pixel_image_rejected - ...
+6 failed, 1 warning in 0.44s

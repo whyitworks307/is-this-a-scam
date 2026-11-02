@@ -33,6 +33,21 @@ def test_valid_proof_format_only():
     validate_proof(proof())
     assert RESERVE < BUDGET
 
+def test_explicit_owner_credit_confirmation_does_not_claim_billing_disabled():
+    p = proof()
+    p['personal_billing_disabled'] = False
+    p['credit_verification_source'] = 'explicit_user_confirmation'
+    p['promotional_balance_usd'] = '149.00'
+    validate_proof(p)
+
+def test_owner_confirmation_requires_two_campaign_margin():
+    p = proof()
+    p['personal_billing_disabled'] = False
+    p['credit_verification_source'] = 'explicit_user_confirmation'
+    p['promotional_balance_usd'] = '9.99'
+    with pytest.raises(ValueError):
+        validate_proof(p)
+
 def test_synthetic_manifest_hashes():
     import hashlib, json
     from tools.live_campaign import ROOT, MAX_REQUESTS

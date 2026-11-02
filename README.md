@@ -25,7 +25,8 @@ The original working demo and submission files are preserved. See
 Run offline regression tests with `python -m pip install -r requirements-test-lock.txt`
 then `python -m pytest`. The original server test remains `python test_samples.py`.
 The lock records the tested Linux environment; production dependencies remain in
-`requirements.txt`. Python 3.10+ is required. Windows QC is still pending.
+`requirements.txt`. Python 3.10+ is required. Builder tests passed on Windows too;
+independent Vex QC is still pending.
 
 The optional live campaign is separate from normal app use. Read
 [the live test instructions](docs/LIVE_TESTING.md) before running it. It requires

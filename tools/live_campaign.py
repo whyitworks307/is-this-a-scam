@@ -27,7 +27,7 @@ RESERVE = Decimal('1.34')
 INPUT_RATE, OUTPUT_RATE = Decimal('1.25'), Decimal('4.25')
 
 def validate_proof(proof):
-    required = ['promotional_credit_active', 'personal_billing_disabled', 'standard_mode_confirmed']
+    required = ['promotional_credit_active', 'standard_mode_confirmed']
     if any(proof.get(k) is not True for k in required):
         raise ValueError('Promotional-only billing and Standard mode must be verified on the actual project.')
     checked = datetime.fromisoformat(proof['checked_at_utc'].replace('Z', '+00:00'))
@@ -36,6 +36,14 @@ def validate_proof(proof):
         raise ValueError('Billing verification must be less than two hours old.')
     if Decimal(str(proof['promotional_balance_usd'])) < BUDGET:
         raise ValueError('At least $5 in promotional credit must remain.')
+    # A current, explicit account-owner confirmation of ample promotional credit
+    # is usable evidence; do not invent a claim that billing settings were changed.
+    # Keep a two-campaign margin ($10) even though this campaign may spend only $5.
+    if proof.get('personal_billing_disabled') is not True and not (
+        proof.get('credit_verification_source') == 'explicit_user_confirmation'
+        and Decimal(str(proof['promotional_balance_usd'])) >= Decimal('10.00')
+    ):
+        raise ValueError('Verify promotional funding or disabled personal billing before any request.')
     if not proof.get('billing_evidence_reference'):
         raise ValueError('A non-secret project billing evidence reference is required.')
     if proof.get('input_usd_per_million') != '1.25' or proof.get('output_usd_per_million') != '4.25':

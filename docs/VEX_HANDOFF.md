@@ -23,13 +23,15 @@ in place. Any repair creates a new candidate requiring review again.
 7. Independently inspect mobile layout, keyboard navigation, readable errors, speech
    text, and family-share draft. Do not actually message a third party during QC.
    A Chromium smoke runner is in `tools/browser_smoke.py` (requires Playwright).
-8. Only with current verified promotional-only billing, run the prepared 13-case live
-   campaign within its $5 cap. Missing key/billing proof blocks live acceptance;
-   do not silently reuse the original baseline's live results for this branch.
+8. Independently inspect the completed 13-case live report and its token-derived
+   $0.050824 use estimate. Funding evidence was the owner's current $149 free-credit
+   confirmation; it was not a dashboard audit. If you rerun any paid tests, first
+   verify remaining promotional funding and allocate the remaining campaign budget.
+   Do not reset the ledger or silently reuse the baseline's separate live results.
 9. Report incorrect verdicts, false confidence, missed/extra warnings, usability limits,
    exact commands/environment, request usage, and reproducibility. Keep raw secrets out.
 
 Do not merge/deploy or make submission claims. If evidence is insufficient, reject
 or explicitly scope the decision to offline engineering and list the remaining gate.
 The deadline is November 4, 2026, 8:00 PM Central. The working baseline remains the
-submission fallback if this candidate has not passed live testing and independent QC.
+submission fallback if this candidate has not passed independent QC in time.

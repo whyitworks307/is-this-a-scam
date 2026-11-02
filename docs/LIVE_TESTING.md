@@ -1,18 +1,26 @@
 # Live Meta test campaign
 
-Status: NOT RUN. No API key was available to this engineering session; promotional
-credit status and personal-billing protection could not be verified. Actual usage: $0.
-The previous 12/12 live result belongs to the original baseline, not this candidate.
+Status: COMPLETED — 13/13 expected verdicts on November 2, 2026. Token-derived
+promotional-use estimate: $0.050824. Evidence: `evidence/live_meta_campaign.json`.
+The previous 12/12 live result belongs to the original baseline and is separate.
+The owner confirmed $149 current free promotional credit in this conversation.
+The key was loaded from the laptop's User environment only; it never left that
+computer. No billing settings were changed. Funding verification was the owner's
+explicit current confirmation, not a signed-in dashboard read or invoice audit.
 
 Thirteen fictional cases are prepared in `tests/fixtures/campaign.json`: three clear
 document images, two degraded images, a benign message, gift cards, government and
 bank impersonation, family emergency, a suspicious link, private financial details,
 and embedded adversarial instructions. These are generated photographs of synthetic
 typeset pages, not camera captures or real victims' letters. Blurry/dark cases must
-be cautious; any Looks OK on those cases fails. No fresh live verdict is recorded.
+be cautious; any Looks OK on those cases fails. Actual results: all three clear
+photos Likely Scam, blurred Be Careful, dark Likely Scam, benign text Looks OK,
+and the seven remaining scam/adversarial texts Likely Scam.
 
-Before sending anything, inspect the actual Meta project billing dashboard. Confirm
-at least $5 promotional credit remains and personal payment fallback is disabled.
+Before sending anything, confirm the actual Meta project's promotional balance
+from the account owner or dashboard. The guard accepts disabled personal billing
+or a current explicit owner confirmation of at least $10 promotional credit,
+preserving enough margin for both authorized $5 campaigns.
 Do not add a card, change billing settings, or buy credits. If this cannot be verified,
 stop. A successful model call alone does not establish the source of its payment.
 
@@ -21,7 +29,8 @@ Store a local, non-secret proof JSON (outside git), using real observed values:
 ```json
 {
   "promotional_credit_active": true,
-  "personal_billing_disabled": true,
+  "personal_billing_disabled": false,
+  "credit_verification_source": "explicit_user_confirmation",
   "standard_mode_confirmed": true,
   "checked_at_utc": "[actual current ISO timestamp]",
   "promotional_balance_usd": "[observed balance]",
@@ -45,7 +54,7 @@ entire 1,048,576-token context at the uncached input price plus maximum output.
 Complete usage replaces that reservation with an uncached token-price estimate.
 Missing usage, a timeout, or API failure retains the reservation and stops the run.
 The output file is exclusively created: do not bypass it to repeat a campaign.
-This local guard relies on the checked provider rates and credit/billing evidence;
+This local guard relies on the checked provider rates and current funding evidence;
 it cannot control the provider account or simultaneous use by other tools.
 
 Official sources checked November 2, 2026:

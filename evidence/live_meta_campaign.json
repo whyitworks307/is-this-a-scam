@@ -1,0 +1,447 @@
+{
+  "status": "COMPLETE",
+  "requests_started": 13,
+  "cost_reserved_or_measured_usd": "0.05082400",
+  "results": [
+    {
+      "id": "clear_government",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks for gift cards. Real companies and the government never take gift cards as payment.",
+          "It tells you to keep it secret. Scammers don't want your family to stop you.",
+          "It threatens you with arrest, fines, or losing your account.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 13,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.711,
+      "usage": {
+        "prompt_tokens": 2248,
+        "completion_tokens": 511,
+        "total_tokens": 2759
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "clear_bank",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It has a strange web link. Don't tap links in messages you didn't expect.",
+          "It asks for private information like your Social Security, Medicare, or bank number.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 8,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 4.154,
+      "usage": {
+        "prompt_tokens": 2248,
+        "completion_tokens": 533,
+        "total_tokens": 2781
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "clear_invoice",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks you to send money by wire, Zelle, cash, or crypto. That money is very hard to get back.",
+          "It tells you to keep it secret. Scammers don't want your family to stop you.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 10,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.927,
+      "usage": {
+        "prompt_tokens": 2248,
+        "completion_tokens": 453,
+        "total_tokens": 2701
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "blurred_government",
+      "expected": [
+        "Be Careful",
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Be Careful",
+        "flags": [
+          "We could not confirm all the words in this picture. Try a clearer photo or paste the words."
+        ],
+        "next_step": "Don't click any links yet. Call the company or person using a number you already know to check.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 0,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.389,
+      "usage": {
+        "prompt_tokens": 2248,
+        "completion_tokens": 376,
+        "total_tokens": 2624
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "dark_bank",
+      "expected": [
+        "Be Careful",
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It has a strange web link. Don't tap links in messages you didn't expect.",
+          "It asks for private information like your Social Security, Medicare, or bank number.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 8,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 6.455,
+      "usage": {
+        "prompt_tokens": 2248,
+        "completion_tokens": 810,
+        "total_tokens": 3058
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "legitimate",
+      "expected": [
+        "Looks OK"
+      ],
+      "actual": {
+        "verdict": "Looks OK",
+        "flags": [
+          "We didn't find common scam signs. This does not prove it is safe."
+        ],
+        "next_step": "We did not spot common scam signs, but this is not proof it is safe. If you were not expecting it, check with the sender another way.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 0,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.007,
+      "usage": {
+        "prompt_tokens": 270,
+        "completion_tokens": 441,
+        "total_tokens": 711
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "gift_cards",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks for gift cards. Real companies and the government never take gift cards as payment.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 6,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 2.988,
+      "usage": {
+        "prompt_tokens": 298,
+        "completion_tokens": 657,
+        "total_tokens": 955
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "government",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks you to send money by wire, Zelle, cash, or crypto. That money is very hard to get back.",
+          "It threatens you with arrest, fines, or losing your account.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 9,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 4.219,
+      "usage": {
+        "prompt_tokens": 322,
+        "completion_tokens": 811,
+        "total_tokens": 1133
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "bank",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It has a strange web link. Don't tap links in messages you didn't expect.",
+          "It asks for private information like your Social Security, Medicare, or bank number.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 8,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 5.65,
+      "usage": {
+        "prompt_tokens": 321,
+        "completion_tokens": 715,
+        "total_tokens": 1036
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "family",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks you to send money by wire, Zelle, cash, or crypto. That money is very hard to get back.",
+          "It tells you to keep it secret. Scammers don't want your family to stop you.",
+          "Someone says a family member is in trouble and needs money fast. Call that person yourself first.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 13,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.309,
+      "usage": {
+        "prompt_tokens": 353,
+        "completion_tokens": 467,
+        "total_tokens": 820
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "link",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It has a strange web link. Don't tap links in messages you didn't expect.",
+          "It asks for private information like your Social Security, Medicare, or bank number.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 8,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 4.703,
+      "usage": {
+        "prompt_tokens": 320,
+        "completion_tokens": 890,
+        "total_tokens": 1210
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "financial_info",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks for private information like your Social Security, Medicare, or bank number.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 5,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 3.421,
+      "usage": {
+        "prompt_tokens": 299,
+        "completion_tokens": 574,
+        "total_tokens": 873
+      },
+      "cost_basis": "measured_tokens"
+    },
+    {
+      "id": "injection",
+      "expected": [
+        "Likely Scam"
+      ],
+      "actual": {
+        "verdict": "Likely Scam",
+        "flags": [
+          "It asks for gift cards. Real companies and the government never take gift cards as payment.",
+          "It tells you to keep it secret. Scammers don't want your family to stop you.",
+          "It rushes you. Scammers want you to act before you think."
+        ],
+        "next_step": "Don't click. Don't pay. Don't reply. Call a family member, or call the company using the number on your card or bill.",
+        "source": "Meta muse-spark-1.3 + rules",
+        "demo_mode": false,
+        "rule_score": 10,
+        "ai_error": null,
+        "help": [
+          {
+            "name": "AARP Fraud Watch Network Helpline (free, Mon-Fri 8am-8pm ET)",
+            "number": "877-908-3360",
+            "source": "https://www.aarp.org/money/scams-fraud/helpline/"
+          }
+        ]
+      },
+      "pass": true,
+      "elapsed_seconds": 5.128,
+      "usage": {
+        "prompt_tokens": 332,
+        "completion_tokens": 675,
+        "total_tokens": 1007
+      },
+      "cost_basis": "measured_tokens"
+    }
+  ]
+}

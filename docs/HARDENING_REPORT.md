@@ -1,6 +1,7 @@
 # Photo hardening engineering report — November 2, 2026
 
-Release recommendation: HOLD this branch for live testing and Vex independent QC.
+Release recommendation: HOLD this branch for Vex independent QC. The capped live
+campaign is now complete and passed; independent acceptance remains outstanding.
 Do not merge or deploy it yet. Keep the existing working baseline available for
 the November 4, 2026, 8:00 PM Central submission deadline.
 
@@ -45,7 +46,8 @@ The exact unmodified supplied tests remain recoverable in the pinned review ZIP.
 
 ## Test evidence
 
-- 99/99 offline pytest cases: `evidence/regression.txt` and `regression.xml`.
+- 101/101 offline pytest cases: `evidence/regression.txt` and `regression.xml`.
+  The same 101 tests passed on the laptop under Windows/Python 3.13.
 - Original, unchanged server sample runner: 12/12 in demo/rules mode,
   `evidence/original_samples.txt`. These overlap sample coverage in pytest; do not
   add the counts together as unique cases.
@@ -54,13 +56,25 @@ The exact unmodified supplied tests remain recoverable in the pinned review ZIP.
 - `compileall` and `git diff --check` passed.
 - Dependency versions: `requirements-test-lock.txt`. One upstream TestClient/httpx
   deprecation warning is recorded; tests still pass.
-- Live calls this session: 0. Actual promotional use: $0.00. Personal spending: $0.00.
-- Thirteen live cases are prepared, not live-tested. No camera-photo accuracy or
-  model false-positive/false-negative rate is established for this candidate.
+- Live campaign: 13/13 expected verdicts, `evidence/live_meta_campaign.json`.
+  Three clear synthetic document photos were Likely Scam. The blurred photo was
+  Be Careful; the dark photo was Likely Scam. The benign text was Looks OK with
+  the explicit safety caveat. All seven other scam/adversarial texts were Likely Scam.
+- Usage estimate at uncached Standard rates: $0.050824, within the $5 cap. This is
+  a token-derived estimate, not an observed invoice debit. Funding evidence is the
+  account owner's explicit current confirmation of $149 free promotional credit.
+  The API key was found only in the laptop's User environment and stayed there.
+  The official free model-catalog call authenticated successfully. A signed-in
+  billing dashboard was not available; no claim is made that personal billing
+  settings were disabled or changed. No purchase or payment configuration was made.
+- Thirteen live cases establish only this small synthetic campaign's outcome.
+  Genuine camera-photo accuracy and a general false-positive/false-negative rate
+  remain unmeasured. API failure scenarios were simulated offline, not induced
+  through paid calls.
 
 ## Security and remaining limits
 
-No actual key was recovered, printed, exported, or committed. Offline tests block
+No actual key was printed, exported from the laptop, or committed. Offline tests block
 external HTTP and use an obviously fake key. No changes to Personal Relay occurred.
 No production deployment, main merge, or submission occurred. Existing video,
 voiceover, demo script, submission draft, and sample media are preserved.
